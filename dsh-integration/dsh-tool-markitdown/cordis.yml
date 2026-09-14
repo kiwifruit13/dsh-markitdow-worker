@@ -1,0 +1,13 @@
+name: ./lib/index.js
+id: tool-markitdown
+config:
+  /** 单条工具结果中暴露给模型的最大字符数；超出部分截断并附加提示（完整内容仍可落盘） */
+  maxOutputChars: 50000
+  /** 是否默认启用 OCR 增强转换器（可通过工具参数按次覆盖） */
+  ocrEnabledByDefault: false
+  /** OCR 端点 base URL（OpenAI 兼容）；留空则禁用 OCR 路径 */
+  ocrBaseUrl: ''
+  /** OCR 视觉模型名（如 gpt-4o）；仅在 ocrBaseUrl 非空时生效 */
+  ocrModel: ''
+  /** ctx.credentials 中存放 OCR API key 的凭证键名 */
+  ocrCredentialKey: 'markitdown/ocr'

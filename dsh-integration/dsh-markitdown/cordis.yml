@@ -1,0 +1,4 @@
+# Definition package — contract only, zero runtime dependencies.
+# Classified as `library` by gen-config-catalog (no config block by design).
+name: ./lib/index.js
+id: markitdown-seam

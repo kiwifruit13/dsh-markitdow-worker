@@ -1,0 +1,1072 @@
+{
+  "errors": [],
+  "generator": "generate_api_docs.py v1.0.0",
+  "modules_scanned": [
+    "markitdown",
+    "markitdown.__about__",
+    "markitdown.__main__",
+    "markitdown._base_converter",
+    "markitdown._exceptions",
+    "markitdown._markitdown",
+    "markitdown._stream_info",
+    "markitdown._uri_utils",
+    "markitdown.converter_utils",
+    "markitdown.converter_utils.docx",
+    "markitdown.converter_utils.docx.math",
+    "markitdown.converter_utils.docx.math.latex_dict",
+    "markitdown.converter_utils.docx.math.omml",
+    "markitdown.converter_utils.docx.pre_process",
+    "markitdown.converters",
+    "markitdown.converters._audio_converter",
+    "markitdown.converters._bing_serp_converter",
+    "markitdown.converters._csv_converter",
+    "markitdown.converters._cu_converter",
+    "markitdown.converters._doc_intel_converter",
+    "markitdown.converters._docx_converter",
+    "markitdown.converters._epub_converter",
+    "markitdown.converters._exiftool",
+    "markitdown.converters._html_converter",
+    "markitdown.converters._image_converter",
+    "markitdown.converters._ipynb_converter",
+    "markitdown.converters._llm_caption",
+    "markitdown.converters._markdownify",
+    "markitdown.converters._outlook_msg_converter",
+    "markitdown.converters._pdf_converter",
+    "markitdown.converters._plain_text_converter",
+    "markitdown.converters._pptx_converter",
+    "markitdown.converters._rss_converter",
+    "markitdown.converters._transcribe_audio",
+    "markitdown.converters._wikipedia_converter",
+    "markitdown.converters._xlsx_converter",
+    "markitdown.converters._youtube_converter",
+    "markitdown.converters._zip_converter"
+  ],
+  "package": "markitdown",
+  "stats": {
+    "by_kind": {
+      "class": 28,
+      "constant": 3,
+      "dataclass": 1,
+      "enum": 2
+    },
+    "docstring_coverage_pct": 91.2,
+    "total_symbols": 34,
+    "with_docstring": 31
+  },
+  "symbols": [
+    {
+      "doc": "",
+      "exported_by": [
+        "markitdown"
+      ],
+      "kind": "constant",
+      "module": "markitdown",
+      "name": "PRIORITY_GENERIC_FILE_FORMAT",
+      "type": "float",
+      "value": "10.0"
+    },
+    {
+      "doc": "",
+      "exported_by": [
+        "markitdown"
+      ],
+      "kind": "constant",
+      "module": "markitdown",
+      "name": "PRIORITY_SPECIFIC_FILE_FORMAT",
+      "type": "float",
+      "value": "0.0"
+    },
+    {
+      "doc": "",
+      "exported_by": [
+        "markitdown"
+      ],
+      "kind": "constant",
+      "module": "markitdown",
+      "name": "__version__",
+      "type": "str",
+      "value": "'0.1.8b1'"
+    },
+    {
+      "attributes": [],
+      "constructor": "DocumentConverter()",
+      "doc": "Abstract superclass of all DocumentConverters.",
+      "exported_by": [
+        "markitdown"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [
+        {
+          "doc": "Return a quick determination on if the converter should attempt converting the document.",
+          "name": "accepts",
+          "signature": "accepts(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> bool"
+        },
+        {
+          "doc": "Convert a document to Markdown text.",
+          "name": "convert",
+          "signature": "convert(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> DocumentConverterResult"
+        }
+      ],
+      "module": "markitdown._base_converter",
+      "name": "DocumentConverter",
+      "properties": []
+    },
+    {
+      "attributes": [],
+      "constructor": "DocumentConverterResult(markdown: str, title: Optional[str] = None)",
+      "doc": "The result of converting a document to Markdown.",
+      "exported_by": [
+        "markitdown"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [],
+      "module": "markitdown._base_converter",
+      "name": "DocumentConverterResult",
+      "properties": [
+        {
+          "doc": "Soft-deprecated alias for `markdown`. New code should migrate to using `markdown` or __str__.",
+          "name": "text_content",
+          "type": "str"
+        }
+      ]
+    },
+    {
+      "attributes": [],
+      "constructor": "FailedConversionAttempt(converter: Any, exc_info: Optional[tuple] = None)",
+      "doc": "Represents a single attempt to convert a file.",
+      "exported_by": [
+        "markitdown"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [],
+      "module": "markitdown._exceptions",
+      "name": "FailedConversionAttempt",
+      "properties": []
+    },
+    {
+      "attributes": [],
+      "constructor": "FileConversionException(message: Optional[str] = None, attempts: Optional[List[FailedConversionAttempt]] = None)",
+      "doc": "Thrown when a suitable converter was found, but the conversion\nprocess fails for any reason.",
+      "exported_by": [
+        "markitdown"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [],
+      "module": "markitdown._exceptions",
+      "name": "FileConversionException",
+      "properties": []
+    },
+    {
+      "attributes": [],
+      "constructor": "MarkItDownException(...)",
+      "doc": "Base exception class for MarkItDown.",
+      "exported_by": [
+        "markitdown"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [],
+      "module": "markitdown._exceptions",
+      "name": "MarkItDownException",
+      "properties": []
+    },
+    {
+      "attributes": [],
+      "constructor": "MissingDependencyException(...)",
+      "doc": "Converters shipped with MarkItDown may depend on optional\ndependencies. This exception is thrown when a converter's\nconvert() method is called, but the required dependency is not\ninstalled. This is not necessarily a fatal error, as the converter\nwill simply be skipped (an error will bubble up only if no other\nsuitable converter is found).\n\nError messages should clearly indicate which dependency is missing.",
+      "exported_by": [
+        "markitdown"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [],
+      "module": "markitdown._exceptions",
+      "name": "MissingDependencyException",
+      "properties": []
+    },
+    {
+      "attributes": [],
+      "constructor": "UnsupportedFormatException(...)",
+      "doc": "Thrown when no suitable converter was found for the given file.",
+      "exported_by": [
+        "markitdown"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [],
+      "module": "markitdown._exceptions",
+      "name": "UnsupportedFormatException",
+      "properties": []
+    },
+    {
+      "attributes": [],
+      "constructor": "MarkItDown(enable_builtins: Optional[bool] = None, enable_plugins: Optional[bool] = None, **kwargs)",
+      "doc": "(In preview) An extremely simple text-based document reader, suitable for LLM use.\nThis reader will convert common file-types or webpages to Markdown.",
+      "exported_by": [
+        "markitdown"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [
+        {
+          "doc": "Args:",
+          "name": "convert",
+          "signature": "convert(source: Union[str, requests.models.Response, pathlib._local.Path, BinaryIO], stream_info: Optional[StreamInfo] = None, **kwargs: Any) -> DocumentConverterResult"
+        },
+        {
+          "doc": "",
+          "name": "convert_local",
+          "signature": "convert_local(path: Union[str, pathlib._local.Path], stream_info: Optional[StreamInfo] = None, file_extension: Optional[str] = None, url: Optional[str] = None, **kwargs: Any) -> DocumentConverterResult"
+        },
+        {
+          "doc": "",
+          "name": "convert_response",
+          "signature": "convert_response(response: Response, stream_info: Optional[StreamInfo] = None, file_extension: Optional[str] = None, url: Optional[str] = None, **kwargs: Any) -> DocumentConverterResult"
+        },
+        {
+          "doc": "",
+          "name": "convert_stream",
+          "signature": "convert_stream(stream: BinaryIO, stream_info: Optional[StreamInfo] = None, file_extension: Optional[str] = None, url: Optional[str] = None, **kwargs: Any) -> DocumentConverterResult"
+        },
+        {
+          "doc": "",
+          "name": "convert_uri",
+          "signature": "convert_uri(uri: str, stream_info: Optional[StreamInfo] = None, file_extension: Optional[str] = None, mock_url: Optional[str] = None, **kwargs: Any) -> DocumentConverterResult"
+        },
+        {
+          "doc": "Alias for convert_uri()",
+          "name": "convert_url",
+          "signature": "convert_url(url: str, stream_info: Optional[StreamInfo] = None, file_extension: Optional[str] = None, mock_url: Optional[str] = None, **kwargs: Any) -> DocumentConverterResult"
+        },
+        {
+          "doc": "Enable and register built-in converters.",
+          "name": "enable_builtins",
+          "signature": "enable_builtins(**kwargs) -> NoneType"
+        },
+        {
+          "doc": "Enable and register converters provided by plugins.",
+          "name": "enable_plugins",
+          "signature": "enable_plugins(**kwargs) -> NoneType"
+        },
+        {
+          "doc": "Register a DocumentConverter with a given priority.",
+          "name": "register_converter",
+          "signature": "register_converter(converter: DocumentConverter, priority: float = 0.0) -> NoneType"
+        },
+        {
+          "doc": "DEPRECATED: Use register_converter instead.",
+          "name": "register_page_converter",
+          "signature": "register_page_converter(converter: DocumentConverter) -> NoneType"
+        }
+      ],
+      "module": "markitdown._markitdown",
+      "name": "MarkItDown",
+      "properties": []
+    },
+    {
+      "attributes": [
+        {
+          "name": "charset",
+          "value": "None"
+        },
+        {
+          "name": "extension",
+          "value": "None"
+        },
+        {
+          "name": "filename",
+          "value": "None"
+        },
+        {
+          "name": "local_path",
+          "value": "None"
+        },
+        {
+          "name": "mimetype",
+          "value": "None"
+        },
+        {
+          "name": "url",
+          "value": "None"
+        }
+      ],
+      "constructor": "",
+      "doc": "The StreamInfo class is used to store information about a file stream.\nAll fields can be None, and will depend on how the stream was opened.",
+      "exported_by": [
+        "markitdown"
+      ],
+      "fields": [
+        {
+          "default": "None",
+          "name": "mimetype",
+          "type": "Optional[str]"
+        },
+        {
+          "default": "None",
+          "name": "extension",
+          "type": "Optional[str]"
+        },
+        {
+          "default": "None",
+          "name": "charset",
+          "type": "Optional[str]"
+        },
+        {
+          "default": "None",
+          "name": "filename",
+          "type": "Optional[str]"
+        },
+        {
+          "default": "None",
+          "name": "local_path",
+          "type": "Optional[str]"
+        },
+        {
+          "default": "None",
+          "name": "url",
+          "type": "Optional[str]"
+        }
+      ],
+      "kind": "dataclass",
+      "methods": [
+        {
+          "doc": "Copy the StreamInfo object and update it with the given StreamInfo",
+          "name": "copy_and_update",
+          "signature": "copy_and_update(*args, **kwargs)"
+        }
+      ],
+      "module": "markitdown._stream_info",
+      "name": "StreamInfo",
+      "properties": []
+    },
+    {
+      "attributes": [],
+      "constructor": "AudioConverter()",
+      "doc": "Converts audio files to markdown via extraction of metadata (if `exiftool` is installed), and speech transcription (if `speech_recognition` is installed).",
+      "exported_by": [
+        "markitdown.converters"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [
+        {
+          "doc": "Return a quick determination on if the converter should attempt converting the document.",
+          "name": "accepts",
+          "signature": "accepts(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> bool"
+        },
+        {
+          "doc": "Convert a document to Markdown text.",
+          "name": "convert",
+          "signature": "convert(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> DocumentConverterResult"
+        }
+      ],
+      "module": "markitdown.converters._audio_converter",
+      "name": "AudioConverter",
+      "properties": []
+    },
+    {
+      "attributes": [],
+      "constructor": "BingSerpConverter()",
+      "doc": "Handle Bing results pages (only the organic search results).\nNOTE: It is better to use the Bing API",
+      "exported_by": [
+        "markitdown.converters"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [
+        {
+          "doc": "Make sure we're dealing with HTML content *from* Bing.",
+          "name": "accepts",
+          "signature": "accepts(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> bool"
+        },
+        {
+          "doc": "Convert a document to Markdown text.",
+          "name": "convert",
+          "signature": "convert(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> DocumentConverterResult"
+        }
+      ],
+      "module": "markitdown.converters._bing_serp_converter",
+      "name": "BingSerpConverter",
+      "properties": []
+    },
+    {
+      "attributes": [],
+      "constructor": "CsvConverter()",
+      "doc": "Converts CSV files to Markdown tables.",
+      "exported_by": [
+        "markitdown.converters"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [
+        {
+          "doc": "Return a quick determination on if the converter should attempt converting the document.",
+          "name": "accepts",
+          "signature": "accepts(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> bool"
+        },
+        {
+          "doc": "Convert a document to Markdown text.",
+          "name": "convert",
+          "signature": "convert(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> DocumentConverterResult"
+        }
+      ],
+      "module": "markitdown.converters._csv_converter",
+      "name": "CsvConverter",
+      "properties": []
+    },
+    {
+      "attributes": [],
+      "constructor": "ContentUnderstandingConverter(endpoint: str, credential: AzureKeyCredential | TokenCredential | None = None, analyzer_id: Optional[str] = None, file_types: Optional[List[ContentUnderstandingFileType]] = None)",
+      "doc": "Converts files using Azure Content Understanding.\n\nProvides high-quality document, image, audio, and video conversion\nwith structured field extraction via YAML front matter.",
+      "exported_by": [
+        "markitdown.converters"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [
+        {
+          "doc": "Return True if the file type is in the configured set.",
+          "name": "accepts",
+          "signature": "accepts(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> bool"
+        },
+        {
+          "doc": "Convert the file using CU and return Markdown with YAML front matter.",
+          "name": "convert",
+          "signature": "convert(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> DocumentConverterResult"
+        }
+      ],
+      "module": "markitdown.converters._cu_converter",
+      "name": "ContentUnderstandingConverter",
+      "properties": []
+    },
+    {
+      "doc": "Supported file types for Content Understanding conversion.",
+      "exported_by": [
+        "markitdown.converters"
+      ],
+      "kind": "enum",
+      "members": [
+        {
+          "name": "PDF",
+          "value": "'pdf'"
+        },
+        {
+          "name": "DOCX",
+          "value": "'docx'"
+        },
+        {
+          "name": "PPTX",
+          "value": "'pptx'"
+        },
+        {
+          "name": "XLSX",
+          "value": "'xlsx'"
+        },
+        {
+          "name": "HTML",
+          "value": "'html'"
+        },
+        {
+          "name": "TXT",
+          "value": "'txt'"
+        },
+        {
+          "name": "MD",
+          "value": "'md'"
+        },
+        {
+          "name": "RTF",
+          "value": "'rtf'"
+        },
+        {
+          "name": "XML",
+          "value": "'xml'"
+        },
+        {
+          "name": "EML",
+          "value": "'eml'"
+        },
+        {
+          "name": "MSG",
+          "value": "'msg'"
+        },
+        {
+          "name": "JPEG",
+          "value": "'jpeg'"
+        },
+        {
+          "name": "PNG",
+          "value": "'png'"
+        },
+        {
+          "name": "BMP",
+          "value": "'bmp'"
+        },
+        {
+          "name": "TIFF",
+          "value": "'tiff'"
+        },
+        {
+          "name": "HEIF",
+          "value": "'heif'"
+        },
+        {
+          "name": "MP4",
+          "value": "'mp4'"
+        },
+        {
+          "name": "M4V",
+          "value": "'m4v'"
+        },
+        {
+          "name": "MOV",
+          "value": "'mov'"
+        },
+        {
+          "name": "AVI",
+          "value": "'avi'"
+        },
+        {
+          "name": "MKV",
+          "value": "'mkv'"
+        },
+        {
+          "name": "WEBM",
+          "value": "'webm'"
+        },
+        {
+          "name": "FLV",
+          "value": "'flv'"
+        },
+        {
+          "name": "WMV",
+          "value": "'wmv'"
+        },
+        {
+          "name": "WAV",
+          "value": "'wav'"
+        },
+        {
+          "name": "MP3",
+          "value": "'mp3'"
+        },
+        {
+          "name": "M4A",
+          "value": "'m4a'"
+        },
+        {
+          "name": "FLAC",
+          "value": "'flac'"
+        },
+        {
+          "name": "OGG",
+          "value": "'ogg'"
+        },
+        {
+          "name": "AAC",
+          "value": "'aac'"
+        },
+        {
+          "name": "WMA",
+          "value": "'wma'"
+        }
+      ],
+      "module": "markitdown.converters._cu_converter",
+      "name": "ContentUnderstandingFileType"
+    },
+    {
+      "attributes": [],
+      "constructor": "DocumentIntelligenceConverter(endpoint: str, api_version: str | None = None, credential: AzureKeyCredential | TokenCredential | None = None, file_types: List[DocumentIntelligenceFileType] = [<DocumentIntelligenceFileType.DOCX: 'docx'>, <DocumentIn...)",
+      "doc": "Specialized DocumentConverter that uses Document Intelligence to extract text from documents.",
+      "exported_by": [
+        "markitdown.converters"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [
+        {
+          "doc": "Return a quick determination on if the converter should attempt converting the document.",
+          "name": "accepts",
+          "signature": "accepts(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> bool"
+        },
+        {
+          "doc": "Convert a document to Markdown text.",
+          "name": "convert",
+          "signature": "convert(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> DocumentConverterResult"
+        }
+      ],
+      "module": "markitdown.converters._doc_intel_converter",
+      "name": "DocumentIntelligenceConverter",
+      "properties": []
+    },
+    {
+      "doc": "Enum of file types supported by the Document Intelligence Converter.",
+      "exported_by": [
+        "markitdown.converters"
+      ],
+      "kind": "enum",
+      "members": [
+        {
+          "name": "DOCX",
+          "value": "'docx'"
+        },
+        {
+          "name": "PPTX",
+          "value": "'pptx'"
+        },
+        {
+          "name": "XLSX",
+          "value": "'xlsx'"
+        },
+        {
+          "name": "HTML",
+          "value": "'html'"
+        },
+        {
+          "name": "PDF",
+          "value": "'pdf'"
+        },
+        {
+          "name": "JPEG",
+          "value": "'jpeg'"
+        },
+        {
+          "name": "PNG",
+          "value": "'png'"
+        },
+        {
+          "name": "BMP",
+          "value": "'bmp'"
+        },
+        {
+          "name": "TIFF",
+          "value": "'tiff'"
+        }
+      ],
+      "module": "markitdown.converters._doc_intel_converter",
+      "name": "DocumentIntelligenceFileType"
+    },
+    {
+      "attributes": [],
+      "constructor": "DocxConverter()",
+      "doc": "Converts DOCX files to Markdown. Style information (e.g., headings) and tables are preserved where possible.",
+      "exported_by": [
+        "markitdown.converters"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [
+        {
+          "doc": "Return a quick determination on if the converter should attempt converting the document.",
+          "name": "accepts",
+          "signature": "accepts(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> bool"
+        },
+        {
+          "doc": "Convert a document to Markdown text.",
+          "name": "convert",
+          "signature": "convert(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> DocumentConverterResult"
+        }
+      ],
+      "module": "markitdown.converters._docx_converter",
+      "name": "DocxConverter",
+      "properties": []
+    },
+    {
+      "attributes": [],
+      "constructor": "EpubConverter()",
+      "doc": "Converts EPUB files to Markdown. Style information (e.g., headings) and tables are preserved where possible.",
+      "exported_by": [
+        "markitdown.converters"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [
+        {
+          "doc": "Return a quick determination on if the converter should attempt converting the document.",
+          "name": "accepts",
+          "signature": "accepts(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> bool"
+        },
+        {
+          "doc": "Convert a document to Markdown text.",
+          "name": "convert",
+          "signature": "convert(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> DocumentConverterResult"
+        }
+      ],
+      "module": "markitdown.converters._epub_converter",
+      "name": "EpubConverter",
+      "properties": []
+    },
+    {
+      "attributes": [],
+      "constructor": "HtmlConverter()",
+      "doc": "Anything with content type text/html",
+      "exported_by": [
+        "markitdown.converters"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [
+        {
+          "doc": "Return a quick determination on if the converter should attempt converting the document.",
+          "name": "accepts",
+          "signature": "accepts(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> bool"
+        },
+        {
+          "doc": "Convert a document to Markdown text.",
+          "name": "convert",
+          "signature": "convert(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> DocumentConverterResult"
+        },
+        {
+          "doc": "Non-standard convenience method to convert a string to markdown.",
+          "name": "convert_string",
+          "signature": "convert_string(html_content: str, url: Optional[str] = None, **kwargs) -> DocumentConverterResult"
+        }
+      ],
+      "module": "markitdown.converters._html_converter",
+      "name": "HtmlConverter",
+      "properties": []
+    },
+    {
+      "attributes": [],
+      "constructor": "ImageConverter()",
+      "doc": "Converts images to markdown via extraction of metadata (if `exiftool` is installed), and description via a multimodal LLM (if an llm_client is configured).",
+      "exported_by": [
+        "markitdown.converters"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [
+        {
+          "doc": "Return a quick determination on if the converter should attempt converting the document.",
+          "name": "accepts",
+          "signature": "accepts(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> bool"
+        },
+        {
+          "doc": "Convert a document to Markdown text.",
+          "name": "convert",
+          "signature": "convert(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> DocumentConverterResult"
+        }
+      ],
+      "module": "markitdown.converters._image_converter",
+      "name": "ImageConverter",
+      "properties": []
+    },
+    {
+      "attributes": [],
+      "constructor": "IpynbConverter()",
+      "doc": "Converts Jupyter Notebook (.ipynb) files to Markdown.",
+      "exported_by": [
+        "markitdown.converters"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [
+        {
+          "doc": "Return a quick determination on if the converter should attempt converting the document.",
+          "name": "accepts",
+          "signature": "accepts(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> bool"
+        },
+        {
+          "doc": "Convert a document to Markdown text.",
+          "name": "convert",
+          "signature": "convert(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> DocumentConverterResult"
+        }
+      ],
+      "module": "markitdown.converters._ipynb_converter",
+      "name": "IpynbConverter",
+      "properties": []
+    },
+    {
+      "attributes": [],
+      "constructor": "OutlookMsgConverter()",
+      "doc": "Converts Outlook .msg files to markdown by extracting email metadata and content.\n\nUses the olefile package to parse the .msg file structure and extract:\n- Email headers (From, To, Subject)\n- Email body content",
+      "exported_by": [
+        "markitdown.converters"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [
+        {
+          "doc": "Return a quick determination on if the converter should attempt converting the document.",
+          "name": "accepts",
+          "signature": "accepts(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> bool"
+        },
+        {
+          "doc": "Convert a document to Markdown text.",
+          "name": "convert",
+          "signature": "convert(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> DocumentConverterResult"
+        }
+      ],
+      "module": "markitdown.converters._outlook_msg_converter",
+      "name": "OutlookMsgConverter",
+      "properties": []
+    },
+    {
+      "attributes": [],
+      "constructor": "PdfConverter()",
+      "doc": "Converts PDFs to Markdown.\nSupports extracting tables into aligned Markdown format (via pdfplumber).\nFalls back to pdfminer if pdfplumber is missing or fails.",
+      "exported_by": [
+        "markitdown.converters"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [
+        {
+          "doc": "Return a quick determination on if the converter should attempt converting the document.",
+          "name": "accepts",
+          "signature": "accepts(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> bool"
+        },
+        {
+          "doc": "Convert a document to Markdown text.",
+          "name": "convert",
+          "signature": "convert(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> DocumentConverterResult"
+        }
+      ],
+      "module": "markitdown.converters._pdf_converter",
+      "name": "PdfConverter",
+      "properties": []
+    },
+    {
+      "attributes": [],
+      "constructor": "PlainTextConverter()",
+      "doc": "Anything with content type text/plain",
+      "exported_by": [
+        "markitdown.converters"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [
+        {
+          "doc": "Return a quick determination on if the converter should attempt converting the document.",
+          "name": "accepts",
+          "signature": "accepts(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> bool"
+        },
+        {
+          "doc": "Convert a document to Markdown text.",
+          "name": "convert",
+          "signature": "convert(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> DocumentConverterResult"
+        }
+      ],
+      "module": "markitdown.converters._plain_text_converter",
+      "name": "PlainTextConverter",
+      "properties": []
+    },
+    {
+      "attributes": [],
+      "constructor": "PptxConverter()",
+      "doc": "Converts PPTX files to Markdown. Supports heading, tables and images with alt text.",
+      "exported_by": [
+        "markitdown.converters"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [
+        {
+          "doc": "Return a quick determination on if the converter should attempt converting the document.",
+          "name": "accepts",
+          "signature": "accepts(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> bool"
+        },
+        {
+          "doc": "Convert a document to Markdown text.",
+          "name": "convert",
+          "signature": "convert(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> DocumentConverterResult"
+        }
+      ],
+      "module": "markitdown.converters._pptx_converter",
+      "name": "PptxConverter",
+      "properties": []
+    },
+    {
+      "attributes": [],
+      "constructor": "RssConverter()",
+      "doc": "Convert RSS / Atom type to markdown",
+      "exported_by": [
+        "markitdown.converters"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [
+        {
+          "doc": "Return a quick determination on if the converter should attempt converting the document.",
+          "name": "accepts",
+          "signature": "accepts(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> bool"
+        },
+        {
+          "doc": "Convert a document to Markdown text.",
+          "name": "convert",
+          "signature": "convert(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> DocumentConverterResult"
+        }
+      ],
+      "module": "markitdown.converters._rss_converter",
+      "name": "RssConverter",
+      "properties": []
+    },
+    {
+      "attributes": [],
+      "constructor": "WikipediaConverter()",
+      "doc": "Handle Wikipedia pages separately, focusing only on the main document content.",
+      "exported_by": [
+        "markitdown.converters"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [
+        {
+          "doc": "Make sure we're dealing with HTML content *from* Wikipedia.",
+          "name": "accepts",
+          "signature": "accepts(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> bool"
+        },
+        {
+          "doc": "Convert a document to Markdown text.",
+          "name": "convert",
+          "signature": "convert(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> DocumentConverterResult"
+        }
+      ],
+      "module": "markitdown.converters._wikipedia_converter",
+      "name": "WikipediaConverter",
+      "properties": []
+    },
+    {
+      "attributes": [],
+      "constructor": "XlsConverter()",
+      "doc": "Converts XLS files to Markdown, with each sheet presented as a separate Markdown table.",
+      "exported_by": [
+        "markitdown.converters"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [
+        {
+          "doc": "Return a quick determination on if the converter should attempt converting the document.",
+          "name": "accepts",
+          "signature": "accepts(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> bool"
+        },
+        {
+          "doc": "Convert a document to Markdown text.",
+          "name": "convert",
+          "signature": "convert(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> DocumentConverterResult"
+        }
+      ],
+      "module": "markitdown.converters._xlsx_converter",
+      "name": "XlsConverter",
+      "properties": []
+    },
+    {
+      "attributes": [],
+      "constructor": "XlsxConverter()",
+      "doc": "Converts XLSX files to Markdown, with each sheet presented as a separate Markdown table.",
+      "exported_by": [
+        "markitdown.converters"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [
+        {
+          "doc": "Return a quick determination on if the converter should attempt converting the document.",
+          "name": "accepts",
+          "signature": "accepts(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> bool"
+        },
+        {
+          "doc": "Convert a document to Markdown text.",
+          "name": "convert",
+          "signature": "convert(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> DocumentConverterResult"
+        }
+      ],
+      "module": "markitdown.converters._xlsx_converter",
+      "name": "XlsxConverter",
+      "properties": []
+    },
+    {
+      "attributes": [],
+      "constructor": "YouTubeConverter()",
+      "doc": "Extract YouTube metadata and transcripts, or fall back to HTML.",
+      "exported_by": [
+        "markitdown.converters"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [
+        {
+          "doc": "Make sure we're dealing with HTML content *from* YouTube.",
+          "name": "accepts",
+          "signature": "accepts(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> bool"
+        },
+        {
+          "doc": "Convert a document to Markdown text.",
+          "name": "convert",
+          "signature": "convert(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> DocumentConverterResult"
+        }
+      ],
+      "module": "markitdown.converters._youtube_converter",
+      "name": "YouTubeConverter",
+      "properties": []
+    },
+    {
+      "attributes": [],
+      "constructor": "ZipConverter(markitdown: MarkItDown)",
+      "doc": "Converts ZIP files to markdown by extracting and converting all contained files.\n\nThe converter extracts the ZIP contents to a temporary directory, processes each file\nusing appropriate converters based on file extensions, and then combines the results\ninto a single markdown document. The temporary directory is cleaned up after processing.\n\nExample output format:\n```markdown\nContent from the zip file `example.zip`:\n\n## File: docs/readme.txt\n\nThis is the content of readme.txt\nMultiple lines are preserved\n\n## File: images/example.jpg\n\nImageSize: 1920x1080\nDateTimeOriginal: 2024-02-15 14:30:00\nDescription: A beautiful landscape photo\n\n## File: data/report.xlsx\n\n## Sheet1\n| Column1 | Column2 | Column3 |\n|---------|---------|---------|\n| data1   | data2   | data3   |\n| data4   | data5   | data6   |\n```\n\nKey features:\n- Maintains original file structure in headings\n- Processes nested files recursively\n- Uses appropriate converters for each file type\n- Preserves formatting of converted content\n- Cleans up temporary files after processing",
+      "exported_by": [
+        "markitdown.converters"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [
+        {
+          "doc": "Return a quick determination on if the converter should attempt converting the document.",
+          "name": "accepts",
+          "signature": "accepts(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> bool"
+        },
+        {
+          "doc": "Convert a document to Markdown text.",
+          "name": "convert",
+          "signature": "convert(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> DocumentConverterResult"
+        }
+      ],
+      "module": "markitdown.converters._zip_converter",
+      "name": "ZipConverter",
+      "properties": []
+    }
+  ],
+  "warnings": [
+    "模块 `markitdown.__about__` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown.__main__` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown._base_converter` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown._exceptions` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown._markitdown` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown._stream_info` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown._uri_utils` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown.converter_utils.docx.math.latex_dict` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown.converter_utils.docx.math.omml` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown.converter_utils.docx.math` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown.converter_utils.docx.pre_process` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown.converter_utils.docx` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown.converter_utils` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown.converters._audio_converter` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown.converters._bing_serp_converter` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown.converters._csv_converter` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown.converters._cu_converter` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown.converters._doc_intel_converter` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown.converters._docx_converter` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown.converters._epub_converter` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown.converters._exiftool` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown.converters._html_converter` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown.converters._image_converter` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown.converters._ipynb_converter` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown.converters._llm_caption` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown.converters._markdownify` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown.converters._outlook_msg_converter` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown.converters._pdf_converter` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown.converters._plain_text_converter` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown.converters._pptx_converter` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown.converters._rss_converter` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown.converters._transcribe_audio` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown.converters._wikipedia_converter` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown.converters._xlsx_converter` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown.converters._youtube_converter` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown.converters._zip_converter` 未声明 __all__，其符号不进入公开文档"
+  ]
+}

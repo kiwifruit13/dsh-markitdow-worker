@@ -1,0 +1,237 @@
+{
+  "errors": [],
+  "generator": "generate_api_docs.py v1.0.0",
+  "modules_scanned": [
+    "markitdown_ocr",
+    "markitdown_ocr.__about__",
+    "markitdown_ocr._docx_converter_with_ocr",
+    "markitdown_ocr._ocr_service",
+    "markitdown_ocr._pdf_converter_with_ocr",
+    "markitdown_ocr._plugin",
+    "markitdown_ocr._pptx_converter_with_ocr",
+    "markitdown_ocr._xlsx_converter_with_ocr"
+  ],
+  "package": "markitdown_ocr",
+  "stats": {
+    "by_kind": {
+      "class": 5,
+      "constant": 2,
+      "dataclass": 1,
+      "function": 1
+    },
+    "docstring_coverage_pct": 77.8,
+    "total_symbols": 9,
+    "with_docstring": 7
+  },
+  "symbols": [
+    {
+      "doc": "",
+      "exported_by": [
+        "markitdown_ocr"
+      ],
+      "kind": "constant",
+      "module": "markitdown_ocr",
+      "name": "__plugin_interface_version__",
+      "type": "int",
+      "value": "1"
+    },
+    {
+      "doc": "",
+      "exported_by": [
+        "markitdown_ocr"
+      ],
+      "kind": "constant",
+      "module": "markitdown_ocr",
+      "name": "__version__",
+      "type": "str",
+      "value": "'0.1.1b1'"
+    },
+    {
+      "attributes": [],
+      "constructor": "DocxConverterWithOCR(ocr_service: Optional[LLMVisionOCRService] = None)",
+      "doc": "Enhanced DOCX Converter with OCR support for embedded images.\nMaintains document flow while extracting text from images inline.",
+      "exported_by": [
+        "markitdown_ocr"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [
+        {
+          "doc": "Return a quick determination on if the converter should attempt converting the document.",
+          "name": "accepts",
+          "signature": "accepts(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> bool"
+        },
+        {
+          "doc": "Convert a document to Markdown text.",
+          "name": "convert",
+          "signature": "convert(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> DocumentConverterResult"
+        }
+      ],
+      "module": "markitdown_ocr._docx_converter_with_ocr",
+      "name": "DocxConverterWithOCR",
+      "properties": []
+    },
+    {
+      "attributes": [],
+      "constructor": "LLMVisionOCRService(client: Any, model: str, default_prompt: str | None = None) -> NoneType",
+      "doc": "OCR service using LLM vision models (OpenAI-compatible).",
+      "exported_by": [
+        "markitdown_ocr"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [
+        {
+          "doc": "Extract text using LLM vision.",
+          "name": "extract_text",
+          "signature": "extract_text(image_stream: BinaryIO, prompt: str | None = None, stream_info: markitdown._stream_info.StreamInfo | None = None, **kwargs: Any) -> OCRResult"
+        }
+      ],
+      "module": "markitdown_ocr._ocr_service",
+      "name": "LLMVisionOCRService",
+      "properties": []
+    },
+    {
+      "attributes": [
+        {
+          "name": "backend_used",
+          "value": "None"
+        },
+        {
+          "name": "confidence",
+          "value": "None"
+        },
+        {
+          "name": "error",
+          "value": "None"
+        }
+      ],
+      "constructor": "",
+      "doc": "Result from OCR extraction.",
+      "exported_by": [
+        "markitdown_ocr"
+      ],
+      "fields": [
+        {
+          "default": "（必填）",
+          "name": "text",
+          "type": "str"
+        },
+        {
+          "default": "None",
+          "name": "confidence",
+          "type": "float | None"
+        },
+        {
+          "default": "None",
+          "name": "backend_used",
+          "type": "str | None"
+        },
+        {
+          "default": "None",
+          "name": "error",
+          "type": "str | None"
+        }
+      ],
+      "kind": "dataclass",
+      "methods": [],
+      "module": "markitdown_ocr._ocr_service",
+      "name": "OCRResult",
+      "properties": []
+    },
+    {
+      "attributes": [],
+      "constructor": "PdfConverterWithOCR(ocr_service: Optional[LLMVisionOCRService] = None)",
+      "doc": "Enhanced PDF Converter with OCR support for embedded images.\nMaintains document structure while extracting text from images inline.",
+      "exported_by": [
+        "markitdown_ocr"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [
+        {
+          "doc": "Return a quick determination on if the converter should attempt converting the document.",
+          "name": "accepts",
+          "signature": "accepts(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> bool"
+        },
+        {
+          "doc": "Convert a document to Markdown text.",
+          "name": "convert",
+          "signature": "convert(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> DocumentConverterResult"
+        }
+      ],
+      "module": "markitdown_ocr._pdf_converter_with_ocr",
+      "name": "PdfConverterWithOCR",
+      "properties": []
+    },
+    {
+      "doc": "Register OCR-enhanced converters with MarkItDown.\n\nThis plugin provides OCR support for PDF, DOCX, PPTX, and XLSX files.\nThe converters are registered with priority -1.0 to run BEFORE built-in\nconverters (which have priority 0.0), effectively replacing them when\nthe plugin is enabled.\n\nArgs:\n    markitdown: MarkItDown instance to register converters with\n    **kwargs: Additional keyword arguments that may include:\n        - llm_client: OpenAI-compatible client for LLM-based OCR (required for OCR to work)\n        - llm_model: Model name (e.g., 'gpt-4o')\n        - llm_prompt: Custom prompt for text extraction",
+      "exported_by": [
+        "markitdown_ocr"
+      ],
+      "kind": "function",
+      "module": "markitdown_ocr._plugin",
+      "name": "register_converters",
+      "signature": "register_converters(markitdown: MarkItDown, **kwargs: Any) -> NoneType"
+    },
+    {
+      "attributes": [],
+      "constructor": "PptxConverterWithOCR(ocr_service: Optional[LLMVisionOCRService] = None)",
+      "doc": "Enhanced PPTX Converter with OCR fallback.",
+      "exported_by": [
+        "markitdown_ocr"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [
+        {
+          "doc": "Return a quick determination on if the converter should attempt converting the document.",
+          "name": "accepts",
+          "signature": "accepts(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> bool"
+        },
+        {
+          "doc": "Convert a document to Markdown text.",
+          "name": "convert",
+          "signature": "convert(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> DocumentConverterResult"
+        }
+      ],
+      "module": "markitdown_ocr._pptx_converter_with_ocr",
+      "name": "PptxConverterWithOCR",
+      "properties": []
+    },
+    {
+      "attributes": [],
+      "constructor": "XlsxConverterWithOCR(ocr_service: Optional[LLMVisionOCRService] = None)",
+      "doc": "Enhanced XLSX Converter with OCR support for embedded images.\nExtracts images with their cell positions and performs OCR.",
+      "exported_by": [
+        "markitdown_ocr"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [
+        {
+          "doc": "Return a quick determination on if the converter should attempt converting the document.",
+          "name": "accepts",
+          "signature": "accepts(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> bool"
+        },
+        {
+          "doc": "Convert a document to Markdown text.",
+          "name": "convert",
+          "signature": "convert(file_stream: BinaryIO, stream_info: StreamInfo, **kwargs: Any) -> DocumentConverterResult"
+        }
+      ],
+      "module": "markitdown_ocr._xlsx_converter_with_ocr",
+      "name": "XlsxConverterWithOCR",
+      "properties": []
+    }
+  ],
+  "warnings": [
+    "模块 `markitdown_ocr.__about__` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown_ocr._docx_converter_with_ocr` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown_ocr._ocr_service` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown_ocr._pdf_converter_with_ocr` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown_ocr._plugin` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown_ocr._pptx_converter_with_ocr` 未声明 __all__，其符号不进入公开文档",
+    "模块 `markitdown_ocr._xlsx_converter_with_ocr` 未声明 __all__，其符号不进入公开文档"
+  ]
+}

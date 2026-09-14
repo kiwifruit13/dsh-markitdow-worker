@@ -1,0 +1,213 @@
+{
+  "errors": [],
+  "generator": "generate_api_docs.py v1.0.0",
+  "modules_scanned": [
+    "markitdown_bridge",
+    "markitdown_bridge.service"
+  ],
+  "package": "markitdown_bridge",
+  "stats": {
+    "by_kind": {
+      "class": 2,
+      "constant": 7,
+      "function": 5
+    },
+    "docstring_coverage_pct": 35.7,
+    "total_symbols": 14,
+    "with_docstring": 5
+  },
+  "symbols": [
+    {
+      "attributes": [],
+      "constructor": "BridgeError(code: str, message: str) -> NoneType",
+      "doc": "Common base class for all non-exit exceptions.",
+      "exported_by": [
+        "markitdown_bridge.service"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [],
+      "module": "markitdown_bridge.service",
+      "name": "BridgeError",
+      "properties": []
+    },
+    {
+      "attributes": [],
+      "constructor": "BridgeService() -> NoneType",
+      "doc": "Holds MarkItDown instances (one per OCR config) and request bookkeeping.",
+      "exported_by": [
+        "markitdown_bridge.service"
+      ],
+      "fields": [],
+      "kind": "class",
+      "methods": [
+        {
+          "doc": "",
+          "name": "op_cancel",
+          "signature": "op_cancel(params: dict) -> dict"
+        },
+        {
+          "doc": "",
+          "name": "op_convert",
+          "signature": "op_convert(params: dict) -> dict"
+        },
+        {
+          "doc": "",
+          "name": "op_convert_batch",
+          "signature": "op_convert_batch(params: dict) -> dict"
+        },
+        {
+          "doc": "",
+          "name": "op_health",
+          "signature": "op_health(params: dict) -> dict"
+        },
+        {
+          "doc": "",
+          "name": "op_init",
+          "signature": "op_init(params: dict) -> dict"
+        },
+        {
+          "doc": "",
+          "name": "run_op",
+          "signature": "run_op(op: str, params: dict) -> dict"
+        },
+        {
+          "doc": "",
+          "name": "run_request",
+          "signature": "run_request(req_id: str, op: str, params: dict) -> dict"
+        }
+      ],
+      "module": "markitdown_bridge.service",
+      "name": "BridgeService",
+      "properties": []
+    },
+    {
+      "doc": "",
+      "exported_by": [
+        "markitdown_bridge.service"
+      ],
+      "kind": "constant",
+      "module": "markitdown_bridge.service",
+      "name": "ERROR_CONVERSION_FAILED",
+      "type": "str",
+      "value": "'MARKITDOWN_CONVERSION_FAILED'"
+    },
+    {
+      "doc": "",
+      "exported_by": [
+        "markitdown_bridge.service"
+      ],
+      "kind": "constant",
+      "module": "markitdown_bridge.service",
+      "name": "ERROR_DEPENDENCY",
+      "type": "str",
+      "value": "'MARKITDOWN_DEPENDENCY'"
+    },
+    {
+      "doc": "",
+      "exported_by": [
+        "markitdown_bridge.service"
+      ],
+      "kind": "constant",
+      "module": "markitdown_bridge.service",
+      "name": "ERROR_INTERNAL",
+      "type": "str",
+      "value": "'MARKITDOWN_INTERNAL'"
+    },
+    {
+      "doc": "",
+      "exported_by": [
+        "markitdown_bridge.service"
+      ],
+      "kind": "constant",
+      "module": "markitdown_bridge.service",
+      "name": "ERROR_INVALID_PARAMS",
+      "type": "str",
+      "value": "'MARKITDOWN_INVALID_PARAMS'"
+    },
+    {
+      "doc": "",
+      "exported_by": [
+        "markitdown_bridge.service"
+      ],
+      "kind": "constant",
+      "module": "markitdown_bridge.service",
+      "name": "ERROR_UNSUPPORTED_FORMAT",
+      "type": "str",
+      "value": "'MARKITDOWN_UNSUPPORTED_FORMAT'"
+    },
+    {
+      "doc": "",
+      "exported_by": [
+        "markitdown_bridge.service"
+      ],
+      "kind": "constant",
+      "module": "markitdown_bridge.service",
+      "name": "ERROR_VERSION_MISMATCH",
+      "type": "str",
+      "value": "'MARKITDOWN_VERSION_MISMATCH'"
+    },
+    {
+      "doc": "",
+      "exported_by": [
+        "markitdown_bridge.service"
+      ],
+      "kind": "constant",
+      "module": "markitdown_bridge.service",
+      "name": "PLUGIN_INTERFACE_VERSION",
+      "type": "int",
+      "value": "1"
+    },
+    {
+      "doc": "Validate client-declared versions against the vendored anchor (Fail-Closed).",
+      "exported_by": [
+        "markitdown_bridge.service"
+      ],
+      "kind": "function",
+      "module": "markitdown_bridge.service",
+      "name": "assert_version_compatible",
+      "signature": "assert_version_compatible(params: dict) -> dict"
+    },
+    {
+      "doc": "One lossless-JSON line on stdout; ALL diagnostics belong on stderr.",
+      "exported_by": [
+        "markitdown_bridge.service"
+      ],
+      "kind": "function",
+      "module": "markitdown_bridge.service",
+      "name": "emit_json",
+      "signature": "emit_json(obj: dict) -> NoneType"
+    },
+    {
+      "doc": "",
+      "exported_by": [
+        "markitdown_bridge.service"
+      ],
+      "kind": "function",
+      "module": "markitdown_bridge.service",
+      "name": "force_utf8_stdio",
+      "signature": "force_utf8_stdio() -> NoneType"
+    },
+    {
+      "doc": "",
+      "exported_by": [
+        "markitdown_bridge.service"
+      ],
+      "kind": "function",
+      "module": "markitdown_bridge.service",
+      "name": "ocr_default_from_env",
+      "signature": "ocr_default_from_env() -> bool"
+    },
+    {
+      "doc": "Parse vendor/markitdown/VENDORED_VERSION into a dict. Missing file = Fail-Closed.",
+      "exported_by": [
+        "markitdown_bridge.service"
+      ],
+      "kind": "function",
+      "module": "markitdown_bridge.service",
+      "name": "read_vendored_meta",
+      "signature": "read_vendored_meta() -> dict"
+    }
+  ],
+  "warnings": []
+}

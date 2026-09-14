@@ -1,0 +1,41 @@
+{
+  "name": "@kiwifruit/dsh-tool-markitdown",
+  "version": "0.1.0-rc.3",
+  "description": "Consumer tools exposing ctx.markitdown to the model (convert / convert_batch)",
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "types": "./lib/index.d.ts"
+    }
+  },
+  "files": [
+    "lib",
+    "cordis.yml",
+    "cordis.patch.yml"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "build:lib": "tsc -p tsconfig.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "4.0.2",
+    "@deepseek-ai/dsh-credentials": "0.1.5-rc.2",
+    "@deepseek-ai/dsh-tools": "0.1.5-rc.2",
+    "@deepseek-ai/schemastery": "3.18.2"
+  },
+  "dependencies": {
+    "@kiwifruit/dsh-markitdown": "link:D:/Git/github/markitdown-main/dsh-integration/dsh-markitdown"
+  },
+  "engines": {
+    "node": ">=22.19"
+  },
+  "license": "MIT",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+- insert:
+    - id: markitdown-worker
+      name: ./lib/index.js
+      config:
+        pythonPath: ''
+        vendorPath: ''
+        transportMode: 'collect'
+        timeoutMs: 120000
+        maxConcurrent: 4
+        allowedReadRoots: []
+        restartOnCrash: true
+        collectStdoutBytes: 33554432
+        collectStderrBytes: 16384
+        terminateGraceMs: 1000
+        healthTimeoutMs: 15000
+        handshakeTimeoutMs: 10000
+        expectedVendorVersion: ''
+        workerEnv: {}

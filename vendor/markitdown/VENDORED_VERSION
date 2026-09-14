@@ -1,0 +1,10 @@
+# Vendored upstream: microsoft/markitdown
+# Source: D:\Git\github\markitdown-main\packages\markitdown + packages\markitdown-ocr
+# markitdown core version: 0.1.8b1
+# markitdown-ocr version: 0.1.1b1
+# Plugin interface version: 1
+# Vendored at: 2026-09-14
+# Sync policy: local patches (if any) must be recorded as diffs in scripts/ and replayed by sync-vendor.ps1
+VENDORED_VERSION=markitdown@0.1.8b1+ocr@0.1.1b1
+PLUGIN_INTERFACE_VERSION=1
+VENDORED_AT=2026-09-14

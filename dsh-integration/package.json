@@ -1,0 +1,9 @@
+{
+  "name": "dsh-integration-root",
+  "private": true,
+  "version": "0.0.0",
+  "devDependencies": {
+    "typescript": "^5.6.0",
+    "@types/node": "^22.10.0"
+  }
+}

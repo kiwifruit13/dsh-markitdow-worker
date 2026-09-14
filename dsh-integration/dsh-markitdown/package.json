@@ -1,0 +1,30 @@
+{
+  "name": "@kiwifruit/dsh-markitdown",
+  "version": "0.1.0-rc.1",
+  "description": "Definition package for the markitdown capability seam (ctx.markitdown)",
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "types": "./lib/index.d.ts"
+    }
+  },
+  "files": [
+    "lib",
+    "cordis.yml"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "build:lib": "tsc -p tsconfig.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "4.0.2",
+    "@deepseek-ai/dsh-llm": "0.1.5-rc.2"
+  },
+  "engines": {
+    "node": ">=22.19"
+  },
+  "license": "MIT"
+}

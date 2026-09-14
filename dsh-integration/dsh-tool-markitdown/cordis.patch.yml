@@ -1,0 +1,9 @@
+- insert:
+    - id: tool-markitdown
+      name: ./lib/index.js
+      config:
+        maxOutputChars: 50000
+        ocrEnabledByDefault: false
+        ocrBaseUrl: ''
+        ocrModel: ''
+        ocrCredentialKey: 'markitdown/ocr'

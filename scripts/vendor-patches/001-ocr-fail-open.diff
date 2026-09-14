@@ -1,0 +1,286 @@
+--- a/vendor/markitdown/markitdown_ocr/_pdf_converter_with_ocr.py
++++ b/vendor/markitdown/markitdown_ocr/_pdf_converter_with_ocr.py
+@@ -9,6 +9,8 @@
+ 
+ from markitdown import DocumentConverter, DocumentConverterResult, StreamInfo
+ from markitdown._exceptions import (
++    FileConversionException,
++    MarkItDownException,
+     MissingDependencyException,
+     MISSING_DEPENDENCY_MESSAGE,
+ )
+@@ -182,6 +184,11 @@
+         pdf_bytes = io.BytesIO(file_stream.read())
+ 
+         markdown_content = []
++        # Tracks whether any real text (as opposed to page-heading lines) was
++        # extracted. The scanned-PDF OCR fallback below must key off this flag: the
++        # headings appended inside the OCR branch would otherwise make `markdown`
++        # non-empty and render that fallback unreachable.
++        has_text_content = False
+ 
+         try:
+             with pdfplumber.open(pdf_bytes) as pdf:
+@@ -239,6 +246,15 @@
+                                 ocr_result = ocr_service.extract_text(
+                                     img_info["stream"]
+                                 )
++                                if ocr_result.error:
++                                    # Fail-Closed: a failing OCR backend (wrong model
++                                    # name, unreachable endpoint, auth error) must abort
++                                    # the conversion. Silently dropping the image makes
++                                    # the caller believe OCR succeeded.
++                                    raise FileConversionException(
++                                        f"OCR failed for {img_info['name']}: "
++                                        f"{ocr_result.error}"
++                                    )
+                                 if ocr_result.text.strip():
+                                     image_data.append(
+                                         {
+@@ -269,6 +285,7 @@
+                             for item in content_items:
+                                 if item["type"] == "text":
+                                     markdown_content.append(item["text"])
++                                    has_text_content = True
+                                 else:  # image
+                                     ocr_text = item["ocr_text"]
+                                     img_marker = (
+@@ -280,6 +297,7 @@
+                             text_content = page.extract_text() or ""
+                             if text_content.strip():
+                                 markdown_content.append(text_content.strip())
++                                has_text_content = True
+                     else:
+                         # No OCR, just extract text
+                         text_content = page.extract_text() or ""
+@@ -294,6 +312,11 @@
+                     pdf_bytes.seek(0)
+                     markdown = pdfminer.high_level.extract_text(pdf_bytes)
+ 
++        except MarkItDownException:
++            # Fail-Closed pass-through: an OCR failure raised above must not be
++            # swallowed by the pdfminer fallback below, which would turn a hard
++            # configuration error into a silent text-only conversion.
++            raise
+         except Exception:
+             # Fallback to pdfminer
+             try:
+@@ -302,9 +325,9 @@
+             except Exception:
+                 markdown = ""
+ 
+-        # Final fallback: If still empty/whitespace and OCR is available,
++        # Final fallback: If no real text was extracted and OCR is available,
+         # treat as scanned PDF and OCR full pages
+-        if ocr_service and (not markdown or not markdown.strip()):
++        if ocr_service and not has_text_content:
+             pdf_bytes.seek(0)
+             markdown = self._ocr_full_pages(pdf_bytes, ocr_service)
+ 
+@@ -368,6 +391,10 @@
+ 
+                         # Run OCR
+                         ocr_result = ocr_service.extract_text(img_stream)
++                        if ocr_result.error:
++                            raise FileConversionException(
++                                f"OCR failed on page {page_num}: {ocr_result.error}"
++                            )
+ 
+                         if ocr_result.text.strip():
+                             text = ocr_result.text.strip()
+@@ -377,12 +404,18 @@
+                                 "*[No text could be extracted from this page]*"
+                             )
+ 
++                    except MarkItDownException:
++                        raise
+                     except Exception as e:
+                         markdown_parts.append(
+                             f"*[Error processing page {page_num}: {str(e)}]*"
+                         )
+                         continue
+ 
++        except MarkItDownException:
++            # Fail-Closed pass-through: OCR configuration errors must not be
++            # downgraded into the PyMuPDF retry path.
++            raise
+         except Exception:
+             # pdfplumber failed (e.g. malformed EOF) — try PyMuPDF for rendering
+             markdown_parts = []
+@@ -401,6 +434,10 @@
+                         img_stream.seek(0)
+ 
+                         ocr_result = ocr_service.extract_text(img_stream)
++                        if ocr_result.error:
++                            raise FileConversionException(
++                                f"OCR failed on page {page_num}: {ocr_result.error}"
++                            )
+ 
+                         if ocr_result.text.strip():
+                             text = ocr_result.text.strip()
+@@ -410,12 +447,18 @@
+                                 "*[No text could be extracted from this page]*"
+                             )
+ 
++                    except MarkItDownException:
++                        raise
+                     except Exception as e:
+                         markdown_parts.append(
+                             f"*[Error processing page {page_num}: {str(e)}]*"
+                         )
+                         continue
+                 doc.close()
++            except MarkItDownException:
++                # Fail-Closed pass-through: an OCR configuration error raised inside
++                # the page loop must reach the caller, not become a placeholder.
++                raise
+             except Exception:
+                 return "*[Error: Could not process scanned PDF]*"
+ 
+--- a/vendor/markitdown/markitdown_ocr/_docx_converter_with_ocr.py
++++ b/vendor/markitdown/markitdown_ocr/_docx_converter_with_ocr.py
+@@ -12,6 +12,8 @@
+ from markitdown.converter_utils.docx.pre_process import pre_process_docx
+ from markitdown import DocumentConverterResult, StreamInfo
+ from markitdown._exceptions import (
++    FileConversionException,
++    MarkItDownException,
+     MissingDependencyException,
+     MISSING_DEPENDENCY_MESSAGE,
+ )
+@@ -183,14 +185,25 @@
+                         image_bytes = rel.target_part.blob
+                         image_stream = io.BytesIO(image_bytes)
+                         ocr_result = ocr_service.extract_text(image_stream)
++                        if ocr_result.error:
++                            # Fail-Closed: a failing OCR backend (wrong model name,
++                            # unreachable endpoint, auth error) must abort the
++                            # conversion instead of silently dropping the image.
++                            raise FileConversionException(
++                                f"OCR failed for {rel.rId}: {ocr_result.error}"
++                            )
+ 
+                         if ocr_result.text.strip():
+                             # Store raw text only — markers added later
+                             ocr_map[rel.rId] = ocr_result.text.strip()
+ 
++                    except MarkItDownException:
++                        raise
+                     except Exception:
+                         continue
+ 
++        except MarkItDownException:
++            raise
+         except Exception:
+             pass
+ 
+--- a/vendor/markitdown/markitdown_ocr/_pptx_converter_with_ocr.py
++++ b/vendor/markitdown/markitdown_ocr/_pptx_converter_with_ocr.py
+@@ -12,6 +12,8 @@
+ from markitdown.converters import HtmlConverter
+ from markitdown import DocumentConverter, DocumentConverterResult, StreamInfo
+ from markitdown._exceptions import (
++    FileConversionException,
++    MarkItDownException,
+     MissingDependencyException,
+     MISSING_DEPENDENCY_MESSAGE,
+ )
+@@ -127,8 +129,16 @@
+                         try:
+                             image_stream.seek(0)
+                             ocr_result = ocr_service.extract_text(image_stream)
++                            if ocr_result.error:
++                                # Fail-Closed: a failing OCR backend must abort the
++                                # conversion instead of silently emitting an empty block.
++                                raise FileConversionException(
++                                    f"OCR failed for shape image: {ocr_result.error}"
++                                )
+                             if ocr_result.text.strip():
+                                 ocr_text = ocr_result.text.strip()
++                        except MarkItDownException:
++                            raise
+                         except Exception:
+                             pass
+ 
+--- a/vendor/markitdown/markitdown_ocr/_xlsx_converter_with_ocr.py
++++ b/vendor/markitdown/markitdown_ocr/_xlsx_converter_with_ocr.py
+@@ -10,6 +10,8 @@
+ from markitdown.converters import HtmlConverter
+ from markitdown import DocumentConverter, DocumentConverterResult, StreamInfo
+ from markitdown._exceptions import (
++    FileConversionException,
++    MarkItDownException,
+     MissingDependencyException,
+     MISSING_DEPENDENCY_MESSAGE,
+ )
+@@ -195,6 +197,12 @@
+ 
+                         # Perform OCR
+                         ocr_result = ocr_service.extract_text(image_stream)
++                        if ocr_result.error:
++                            # Fail-Closed: a failing OCR backend must abort the
++                            # conversion instead of silently dropping the image.
++                            raise FileConversionException(
++                                f"OCR failed for cell {cell_ref}: {ocr_result.error}"
++                            )
+ 
+                         if ocr_result.text.strip():
+                             results.append(
+@@ -205,9 +213,13 @@
+                                 }
+                             )
+ 
++                    except MarkItDownException:
++                        raise
+                     except Exception:
+                         continue
+ 
++        except MarkItDownException:
++            raise
+         except Exception:
+             pass
+ 
+--- a/vendor/markitdown/markitdown_ocr/_plugin.py
++++ b/vendor/markitdown/markitdown_ocr/_plugin.py
+@@ -5,6 +5,13 @@
+ 
+ from typing import Any
+ from markitdown import MarkItDown
++from markitdown.converters import (
++    DocxConverter,
++    PdfConverter,
++    PptxConverter,
++    XlsConverter,
++    XlsxConverter,
++)
+ 
+ from ._ocr_service import LLMVisionOCRService
+ from ._pdf_converter_with_ocr import PdfConverterWithOCR
+@@ -46,6 +53,27 @@
+             default_prompt=llm_prompt,
+         )
+ 
++    # Fail-Closed: markitdown's convert loop swallows a converter's exception and
++    # falls through to the next accepting converter (_markitdown.py:675-677), so
++    # leaving the built-ins registered would silently downgrade an OCR failure
++    # (wrong model name, unreachable endpoint, auth error) into a non-OCR
++    # conversion. When OCR is explicitly enabled, the OCR-enhanced converters must
++    # be the ONLY handlers for these formats.
++    # `_converters` is the canonical registration list carried by MarkItDown.
++    if ocr_service is not None:
++        replaced = (
++            PdfConverter,
++            DocxConverter,
++            PptxConverter,
++            XlsxConverter,
++            XlsConverter,
++        )
++        markitdown._converters = [
++            registration
++            for registration in markitdown._converters
++            if not isinstance(registration.converter, replaced)
++        ]
++
+     # Register converters with priority -1.0 (before built-ins at 0.0)
+     # This effectively "replaces" the built-in converters when plugin is installed
+     # Pass the OCR service to each converter's constructor

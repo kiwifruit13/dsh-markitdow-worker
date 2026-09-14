@@ -1,0 +1,31 @@
+name: ./lib/index.js
+id: markitdown-worker
+config:
+  /** Python 解释器绝对路径（指向隔离 venv 内的解释器，禁止留空回退到系统 PATH） */
+  pythonPath: ''
+  /** vendored 目录绝对路径（包含 markitdown/ 与 bridge/ 两个子目录） */
+  vendorPath: ''
+  /** 传输模式：collect=每请求单进程（默认，免疫句柄契约漂移）；interactive=长驻 NDJSON worker（须 host 源码实证后启用） */
+  transportMode: 'collect'
+  /** 单次转换请求的超时毫秒数 */
+  timeoutMs: 120000
+  /** bridge worker 内部的并发转换线程数（仅 interactive 模式生效） */
+  maxConcurrent: 4
+  /** 本地路径白名单根目录列表；为空数组=拒绝所有本地路径（Fail-Closed，须显式配置允许的根） */
+  allowedReadRoots: []
+  /** worker 进程异常退出后是否允许在下一次请求时惰性重启（仅 interactive 模式生效，仅一次） */
+  restartOnCrash: true
+  /** collect 模式 stdout 收集字节上限；回复超出即 Fail-Closed 报错（不静默截断协议） */
+  collectStdoutBytes: 33554432
+  /** collect 模式 stderr 诊断尾巴字节上限（仅用于报错归因，不进入协议回复） */
+  collectStderrBytes: 16384
+  /** 子进程终止宽限期毫秒数（SubprocessSpawnSpec.graceMs） */
+  terminateGraceMs: 1000
+  /** health 探测的超时毫秒数（collect 与 interactive 共用） */
+  healthTimeoutMs: 15000
+  /** interactive 模式 init 握手超时毫秒数 */
+  handshakeTimeoutMs: 10000
+  /** init 握手时校验的 vendor 版本锚点；留空表示仅校验插件接口版本 */
+  expectedVendorVersion: ''
+  /** 追加到 worker 进程的环境变量——按 dsh-subprocess 契约合并到净化后的父环境基线（非全量覆盖）；插件内 process 不可用，需注入时用 !!js 表达式 */
+  workerEnv: {}

@@ -1,0 +1,4 @@
+packages:
+  - dsh-markitdown
+  - dsh-markitdown-worker
+  - dsh-tool-markitdown

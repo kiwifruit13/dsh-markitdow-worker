@@ -1,0 +1,29 @@
+# Third-party runtime deps for the vendored markitdown + bridge worker.
+# First-party code (markitdown, markitdown_ocr, markitdown_bridge) is vendored — NOT installed via pip.
+# Install into an isolated venv only:
+#   python -m venv <venv> && <venv>/Scripts/pip install -r requirements.lock -i https://mirrors.aliyun.com/pypi/simple/
+# Core deps (markitdown pyproject `dependencies`)
+beautifulsoup4==4.12.3
+requests==2.32.3
+markdownify==0.13.1
+magika~=0.6.1
+charset-normalizer==3.4.0
+defusedxml==0.7.1
+# Format extras (markitdown pyproject `all` minus azure/cloud/azure-identity; trimmed to offline converters)
+python-pptx==1.0.2
+mammoth~=1.11.0
+pandas==2.2.3
+openpyxl==3.1.5
+xlrd==2.0.1
+lxml==5.3.0
+pdfminer.six>=20251230
+pdfplumber>=0.11.9
+olefile==0.47
+pydub==0.25.1
+SpeechRecognition==3.10.4
+youtube-transcript-api~=1.0.0
+# markitdown-ocr deps
+PyMuPDF>=1.24.0
+python-docx==1.1.2
+Pillow>=9.0.0
+openai>=1.0.0
